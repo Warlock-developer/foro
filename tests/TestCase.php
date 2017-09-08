@@ -10,6 +10,11 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     protected $baseUrl = 'http://localhost';
 
     /**
+     * @var \App\User
+     */
+    protected $defaultUser;
+
+    /**
      * Creates the application.
      *
      * @return \Illuminate\Foundation\Application
@@ -22,4 +27,16 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         return $app;
     }
+
+    public function defaultUser()
+    {
+        if($this->defaultUser){
+            return $this->defaultUser;
+        }
+
+        return $this->defaultUser = factory(\App\User::class)->create();
+
+    }
+
+
 }
