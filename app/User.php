@@ -33,4 +33,25 @@ class User extends Authenticatable
     }
 
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * save a new comment in coments table assinging the user_id
+     * @param Post $post
+     * @param $message
+     */
+    public function comment(Post $post, $message)
+    {
+
+        $comment = new Comment([
+            'comment' => $message,
+            'post_id' => $post->id
+        ]);
+
+        $this->comments()->save($comment);
+
+    }
 }

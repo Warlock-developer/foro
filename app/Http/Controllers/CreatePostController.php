@@ -19,8 +19,10 @@ class CreatePostController extends Controller
             'content'   =>  'required'
         ]);
 
+        //instanciando a post
         $post = new Post($request->all());
 
+        //asignamos el post al usuario que está creando el post
         auth()->user()->posts()->save($post);
 
         return $post->title;

@@ -2,10 +2,10 @@
 
 class CreatePostsTest extends FeatureTestCase
 {
-
+    //prueba que un usuario pueda crear un post
     function test_a_user_create_a_post()
     {
-        //Having
+        //Having campos a ser guardados
         $title = 'Esta es una pregunta';
         $content = 'Este es el contenido';
 
@@ -37,20 +37,18 @@ class CreatePostsTest extends FeatureTestCase
             ->seePageIs(route('login'));
     }
 
-
+    //validación del formulario
     function test_create_post_form_validation()
     {
         $this->actingAs($this->defaultUser())
             ->visit(route('posts.create'))
-            ->press('Publicar')
+            ->press('Publicar')//sin completar nungun campo
             ->seePageIs(route('posts.create'))
             ->seeErrors([
                 'title' => 'El campo título es obligatorio',
                 'content' => 'El campo contenido es obligatorio'
             ]);
-            /*
-            ->seeInElement('#field_title .help-block','El campo título es obligatorio')
-            ->seeInElement('#field_content .help-block','El campo contenido es obligatorio');*/
+
     }
 
 }
