@@ -18,7 +18,9 @@ Route::get('posts-completados/{category?}', [
     'as' => 'posts.completed'
 ]);
 
+
 Route::get('{category?}', [
     'uses' => 'ListPostController',
     'as'    => 'posts.index'
 ]);
+

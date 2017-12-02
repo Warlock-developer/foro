@@ -18,8 +18,4 @@ class ShowPostController extends Controller
         return view('posts.show', compact('post'));
     }
 
-
-
-
-
 }

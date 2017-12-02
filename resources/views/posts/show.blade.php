@@ -18,7 +18,7 @@
                 @if ($post->pending)
                     <span class="label label-warning">Pendiente</span>
                 @else
-                    <span class="label label-warning">Completado</span>
+                    <span class="label label-success">Completado</span>
                 @endif
             </p>
 
