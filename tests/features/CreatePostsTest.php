@@ -1,5 +1,7 @@
 <?php
 
+use App\Post;
+
 class CreatePostsTest extends FeatureTestCase
 {
     //prueba que un usuario pueda crear un post
@@ -12,10 +14,14 @@ class CreatePostsTest extends FeatureTestCase
         //simular que un usuario está conectado
         $this->actingAs($user = $this->defaultUser());
 
+        $category = factory(\App\Category::class)->create();
+
+
         //When
         $this->visit(route('posts.create'))
             ->type($title,'title')
             ->type($content,'content')
+            ->select($category->id, 'category_id')
             ->press('Publicar');
 
         //Then
@@ -24,17 +30,27 @@ class CreatePostsTest extends FeatureTestCase
             'content' => $content,
             'pending' => true,
             'user_id' => $user->id,
+            'slug' => 'esta-es-una-pregunta',
+            'category_id' => $category->id,
+        ]);
+
+        $post = Post::first();
+
+        //Test the authos is suscribed automatically to the post.
+        $this->seeInDatabase('subscriptions',[
+            'user_id' => $user->id,
+            'post_id' => $post->id
         ]);
 
         //test a user is redirected to the posts details after creating it
-        $this->see($title);
+        $this->seePageIs($post->url);
 
     }
 
     function test_creating_a_post_requires_authentication()
     {
         $this->visit(route('posts.create'))
-            ->seePageIs(route('login'));
+            ->seePageIs(route('token'));
     }
 
     //validación del formulario

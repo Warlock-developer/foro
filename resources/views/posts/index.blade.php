@@ -2,18 +2,32 @@
 
 @section('content')
 
-    <h1>Posts</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>
+                {{ $category->exists ? 'Post de '.$category->name : 'Posts' }}
+            </h1>
+        </div>
+    </div>
 
-    <ul>
-        @foreach($posts as $post)
-            <li>
-                <a href="{{ $post->url }}">
-                    {{ $post->title }}
-                </a>
-            </li>
-        @endforeach
-    </ul>
+    <div class="row">
+        @include('posts.sidebar')
+        <div class="col-md-10">
+            {!! Form::open(['method' => 'get', 'class' => 'form form-inline' ]) !!}
+                {!! Form::select(
+                    'orden',
+                    trans('options.posts-order'),
+                    request()->get('orden'),
+                    ['class' => 'form-control']
+                ) !!}
+                <button type="submit" class="btn btn-default">Ordenar</button>
+            {!! Form::close() !!}
 
-    {{ $posts->render() }}
+            @each('posts.item', $posts, 'post')
+
+            {{ $posts->render() }}
+        </div>
+
+    </div>
 
 @endsection

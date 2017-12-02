@@ -8,7 +8,8 @@ class ShowPostTest extends FeatureTestCase
     {
         //Having
         $user = $this->defaultUser([
-            'name'  =>  'Dawin Valenzuela'
+            'first_name'  =>  'Dawin',
+            'last_name' => 'Valenzuela'
         ]);
 
 
@@ -18,7 +19,7 @@ class ShowPostTest extends FeatureTestCase
             'user_id'   =>  $user->id,
         ]);
 
-        $user->posts()->save($post);
+        //$user->posts()->save($post);
 
         //when
         $this->visit($post->url)

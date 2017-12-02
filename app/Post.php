@@ -2,13 +2,14 @@
 
 namespace App;
 
+use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
 
 class Post extends Model
 {
-    protected $fillable = ['title', 'content'];
+    protected $fillable = ['title', 'content', 'category_id'];
 
     protected $casts = [
       'pending' => 'boolean'
@@ -18,6 +19,12 @@ class Post extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public function setTitleAttribute($value)
@@ -34,9 +41,50 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function subscribers()
+    {
+        return $this->belongsToMany(User::class, 'subscriptions');
+    }
+
+    public function latestComments()
+    {
+        return $this->comments()->orderBy('created_at','DESC');
+    }
+
+
+    public function scopeCategory($query, Category $category)
+    {
+
+        if($category->exists){
+            $query->where('category_id', $category->id);
+        }
+
+    }
+
+    public function scopePending($query)
+    {
+        $query->where('pending', true);
+
+    }
+
+    public function scopeCompleted($query)
+    {
+
+        $query->where('pending', false);
+    }
+
 
     public function  getUrlAttribute()
     {
         return route('posts.show', [$this->id, $this->slug]);
     }
+
+
+    public function getSafeHtmlContentAttribute()
+    {
+        return Markdown::convertToHtml(e($this->content));
+
+    }
+
+
 }

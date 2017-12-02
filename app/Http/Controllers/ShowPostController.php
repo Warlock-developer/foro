@@ -3,19 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Post;
-use Illuminate\Http\Request;
 
-class PostController extends Controller
+class ShowPostController extends Controller
 {
 
-    public function index()
-    {
-        $posts = Post::paginate();
-        return view('posts.index',compact('posts'));
-    }
-
-
-    public function show(Post $post, $slug)
+    public function __invoke(Post $post, $slug)
     {
         //abort_unless($post->slug == $slug, 404);
 
@@ -25,5 +17,9 @@ class PostController extends Controller
 
         return view('posts.show', compact('post'));
     }
+
+
+
+
 
 }

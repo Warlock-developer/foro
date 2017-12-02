@@ -11,7 +11,13 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="{{ mix('/css/app.css')  }}" rel="stylesheet">
+
+
+    <style>
+        .active { font-weight: bold; }
+    </style>
+
 
     <!-- Scripts -->
     <script>
@@ -42,9 +48,7 @@
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
+                    {!! Menu::make(trans('menu.main'),'nav navbar-nav') !!}
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
@@ -78,10 +82,13 @@
             </div>
         </nav>
 
-        @yield('content')
+        <div class="container">
+            @yield('content')
+        </div>
+
     </div>
 
     <!-- Scripts -->
-    <script src="/js/app.js"></script>
+    <script src="{{ mix('/js/app.js') }}"></script>
 </body>
 </html>
